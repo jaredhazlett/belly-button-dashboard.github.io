@@ -22,7 +22,7 @@ function init() {
 	d3.json("samples.json").then((data) => {
 		var changed_id = data.samples[0].id
 		var sample_values = data.samples[0].sample_values
-		var otu_ids = data.samples[0].otu_ids
+		var otu_ids = data.samples[0].otu_ids.slice(0,10).reverse()
 		var otu_labels = data.samples[0].otu_labels
 		var wfreq = data.metadata[0].wfreq
 		var sample_values_split = sample_values.slice(0, 10).reverse()
@@ -104,7 +104,7 @@ function optionChanged(identification) {
 		var wfreq = meta[0].wfreq
 		console.log(changed_id)
 		console.log(gender)
-		var otu_ids = samples[0].otu_ids
+		var otu_ids = samples[0].otu_ids.slice(0,10).reverse()
 		var otu_labels = samples[0].otu_labels
 		var sample_values = samples[0].sample_values
 		var sample_values_split = sample_values.slice(0,10).reverse()
@@ -130,7 +130,7 @@ function optionChanged(identification) {
 
 		Plotly.newPlot("bar", data, layout)
 
-		var data = [{
+		var trace2 = {
 		x: otu_ids,
 		y: sample_values_split,
 		text: otu_labels,
@@ -139,7 +139,8 @@ function optionChanged(identification) {
 			size: (sample_values_split),
 			sizeref: 2
 		}
-	}]	
+	}	
+		var data = [trace2]
 
 		var layout = {
 			title: `Belly Button Data ${changed_id}`
@@ -147,7 +148,7 @@ function optionChanged(identification) {
 
 		Plotly.newPlot("bubble", data, layout)
 
-		var data = [{
+		var trace3 = {
 			domain: { x: [0, 1], y: [0, 1]},
 			value: wfreq,
 			type: "indicator",
@@ -156,7 +157,9 @@ function optionChanged(identification) {
 			gauge: {
 				axis: { range: [null, 9] },
 			}
-		}]
+		}
+
+		var data = [trace3]
 
 		var layout = {
 			width: 500, 
