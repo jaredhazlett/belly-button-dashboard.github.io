@@ -34,7 +34,10 @@ function init() {
 		x: sample_values_split,
 		y: otu_ids,
 		orientation: "h",
-		text: otu_labels
+		text: otu_labels,
+		marker: {
+			color: 'darkorange'
+		}
 
 		}
 
@@ -55,7 +58,9 @@ function init() {
 		mode: 'markers',
 		marker: {
 			size: (sample_values_split),
-			sizeref: 2
+			sizeref: 1.5,
+			color: [4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048],
+			showscale: false
 		}
 	}]	
 
@@ -73,12 +78,19 @@ function init() {
 			title: { text: `Wash Frequency ${changed_id}`},
 			gauge: {
 				axis: { range: [null, 9] },
+				bar: {'color': "black"},
+				bordercolor: "gray",
+				steps: [
+					{'range': [0,3], 'color': 'red'},
+					{'range': [3,6], 'color': 'yellow'},
+					{'range': [6,9], 'color': 'green'}
+				]
 			}
 		}]
 
 		var layout = {
-			width: 500, 
-			height: 500,
+			width: 400, 
+			height: 400,
 	}
 
 		Plotly.newPlot('gauge', data, layout);
@@ -116,7 +128,10 @@ function optionChanged(identification) {
 		x: sample_values_split,
 		y: otu_ids,
 		orientation: "h",
-		text: otu_labels
+		text: otu_labels,
+		marker: {
+			color: 'darkorange'
+		}
 
 		}
 
@@ -130,17 +145,18 @@ function optionChanged(identification) {
 
 		Plotly.newPlot("bar", data, layout)
 
-		var trace2 = {
+		data = [{
 		x: otu_ids,
 		y: sample_values_split,
 		text: otu_labels,
 		mode: 'markers',
 		marker: {
 			size: (sample_values_split),
-			sizeref: 2
+			sizeref: 1.5,
+			color: [4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048],
+			showscale: false
 		}
-	}	
-		var data = [trace2]
+		}]
 
 		var layout = {
 			title: `Belly Button Data ${changed_id}`
@@ -148,7 +164,7 @@ function optionChanged(identification) {
 
 		Plotly.newPlot("bubble", data, layout)
 
-		var trace3 = {
+		var data = [{
 			domain: { x: [0, 1], y: [0, 1]},
 			value: wfreq,
 			type: "indicator",
@@ -156,23 +172,29 @@ function optionChanged(identification) {
 			title: { text: `Wash Frequency ${changed_id}`},
 			gauge: {
 				axis: { range: [null, 9] },
+				bar: {'color': "black"},
+				bordercolor: "gray",
+				steps: [
+					{'range': [0,3], 'color': 'red'},
+					{'range': [3,6], 'color': 'yellow'},
+					{'range': [6,9], 'color': 'green'}
+				]
 			}
-		}
-
-		var data = [trace3]
+		}]
 
 		var layout = {
-			width: 500, 
-			height: 500,
+			width: 400, 
+			height: 400,
 	}
 
 		Plotly.newPlot('gauge', data, layout);
 
 		//builtDemographics()
-
+	
 	}
 	})
 }
+
 
 
 // function buildDemographics(changed_id, bbtype, ethnicity, gender, location, wfreq) {
