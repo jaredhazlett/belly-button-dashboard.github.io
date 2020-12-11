@@ -20,6 +20,8 @@ inputDropDown()
 
 function init() {
 	d3.json("samples.json").then((data) => {
+		var metadatas = data.metadata[0]
+		console.log(metadatas)
 		var changed_id = data.samples[0].id
 		var sample_values = data.samples[0].sample_values
 		var otu_ids = data.samples[0].otu_ids.slice(0,10).reverse()
@@ -27,7 +29,18 @@ function init() {
 		var wfreq = data.metadata[0].wfreq
 		var sample_values_split = sample_values.slice(0, 10).reverse()
 		for (var i=0; i < otu_ids.length; i++) {
-			otu_ids[i] = "OTU " + otu_ids[i];
+			otu_ids[i] = "OTU " + otu_ids[i];}
+
+
+		d3.select("div").select("#sample-metadata")
+		.selectAll("p")
+    	.data([metadatas])
+    	.enter()
+    	.append("p")
+    	.html(function(d) {
+      		return `<p>${d.age}</p><p>${d.bbtype}</p><p>${d.ethnicity}</p><p>${d.gender}</p><p>${d.id}</p><p>${d.location}</p><p>${wfreq}</p>`
+    	})
+
 
 		var trace1 = {
 		type: "bar",
@@ -58,7 +71,7 @@ function init() {
 		mode: 'markers',
 		marker: {
 			size: (sample_values_split),
-			sizeref: 1.5,
+			sizeref: 2,
 			color: [4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048],
 			showscale: false
 		}
@@ -95,10 +108,49 @@ function init() {
 
 		Plotly.newPlot('gauge', data, layout);
 
-	}
 	})
+
+
 }
+
 init();
+
+
+// var austinWeather = [{
+//   date: "2018-02-01",
+//   low: 51,
+//   high: 76
+// },
+// {
+//   date: "2018-02-02",
+//   low: 47,
+//   high: 59
+// },
+// {
+//   date: "2018-02-03",
+//   low: 44,
+//   high: 59
+// },
+// {
+//   date: "2018-02-04",
+//   low: 52,
+//   high: 73
+// },
+// {
+//   date: "2018-02-05",
+//   low: 47,
+//   high: 71
+// }
+// ];
+
+//   d3.select("ul")
+//     .selectAll("li")
+//     .data(austinWeather)
+//     .enter()
+//     .append("li")
+//     .html(function(d) {
+//       return `<li>${d.date}</li><li>${d.low}</li><li>${d.high}</li>`
+//     })
 
 
 function optionChanged(identification) {
@@ -107,6 +159,7 @@ function optionChanged(identification) {
 		var samples = data.samples.filter(sample => sample.id == identification)
 		console.log(meta)
 		console.log(samples)
+		var metaDemo = meta[0]
 		var changed_id = meta[0].id
 		console.log(changed_id)
 		var bbtype = meta[0].bbtype
@@ -122,6 +175,17 @@ function optionChanged(identification) {
 		var sample_values_split = sample_values.slice(0,10).reverse()
 		for (var i=0; i < otu_ids.length; i++) {
 			otu_ids[i] = "OTU " + otu_ids[i];
+
+
+		var selection = d3.select("div").select("#sample-metadata")
+		.selectAll("p").data([metaDemo])
+
+    	selection.enter()
+    		.append("p")
+    		.merge(selection)
+    		.html(function(d) {
+      		return `<p>${d.age}</p><p>${d.bbtype}</p><p>${d.ethnicity}</p><p>${d.gender}</p><p>${d.id}</p><p>${d.location}</p><p>${wfreq}</p>`
+    	})
 
 		var trace1 = {
 		type: "bar",
@@ -152,7 +216,7 @@ function optionChanged(identification) {
 		mode: 'markers',
 		marker: {
 			size: (sample_values_split),
-			sizeref: 1.5,
+			sizeref: 2,
 			color: [4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048],
 			showscale: false
 		}
@@ -189,11 +253,26 @@ function optionChanged(identification) {
 
 		Plotly.newPlot('gauge', data, layout);
 
-		//builtDemographics()
-	
+
+
+		
 	}
 	})
 }
+
+
+// d3.json("samples.json").then((data) => {
+// 	var metadatas = data.metadata[0]
+// })
+
+// d3.select("ul")
+//   .selectAll("li")
+//   .data(metadatas)
+//   .enter()
+//   .append("li")
+//   .html(function(d) {
+//   return `<li>$${d.age}</li><li>${d.bbtype}</li><li>${d.ethnicity}</li><li>${d.gender}</li><li>${d.id}</li><li>${d.location}</li><li>${d.wfreq}</li>`
+//   })
 
 
 
