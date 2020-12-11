@@ -29,16 +29,17 @@ function init() {
 		var wfreq = data.metadata[0].wfreq
 		var sample_values_split = sample_values.slice(0, 10).reverse()
 		for (var i=0; i < otu_ids.length; i++) {
-			otu_ids[i] = "OTU " + otu_ids[i];}
+			otu_ids[i] = "OTU " + otu_ids[i]}
 
 
-		d3.select("div").select("#sample-metadata")
-		.selectAll("p")
-    	.data([metadatas])
-    	.enter()
-    	.append("p")
-    	.html(function(d) {
-      		return `<p>${d.age}</p><p>${d.bbtype}</p><p>${d.ethnicity}</p><p>${d.gender}</p><p>${d.id}</p><p>${d.location}</p><p>${wfreq}</p>`
+		var selection = d3.select("div").select("#sample-metadata")
+		.selectAll("p").data([metadatas])
+
+    	selection.enter()
+    		.append("p")
+    		.merge(selection)
+    		.html(function(d) {
+      		return `<p><b>age: </b>${d.age}</p><p><b>bbtype: </b>${d.bbtype}</p><p><b>ethnicity: </b>${d.ethnicity}</p><p><b>gender: </b>${d.gender}</p><p><b>ID: </b>${d.id}</p><p><b>location: </b>${d.location}</p><p><b>wash frequency: </b>${d.wfreq}</p>`
     	})
 
 
@@ -49,7 +50,8 @@ function init() {
 		orientation: "h",
 		text: otu_labels,
 		marker: {
-			color: 'darkorange'
+			color: [otu_ids],
+			showscale: false
 		}
 
 		}
@@ -72,7 +74,7 @@ function init() {
 		marker: {
 			size: (sample_values_split),
 			sizeref: 2,
-			color: [4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048],
+			color: [otu_ids],
 			showscale: false
 		}
 	}]	
@@ -184,7 +186,7 @@ function optionChanged(identification) {
     		.append("p")
     		.merge(selection)
     		.html(function(d) {
-      		return `<p>${d.age}</p><p>${d.bbtype}</p><p>${d.ethnicity}</p><p>${d.gender}</p><p>${d.id}</p><p>${d.location}</p><p>${wfreq}</p>`
+      		return `<p><b>age: </b>${d.age}</p><p><b>bbtype: </b>${d.bbtype}</p><p><b>ethnicity: </b>${d.ethnicity}</p><p><b>gender: </b>${d.gender}</p><p><b>ID: </b>${d.id}</p><p><b>location: </b>${d.location}</p><p><b>wash frequency: </b>${d.wfreq}</p>`
     	})
 
 		var trace1 = {
@@ -194,7 +196,8 @@ function optionChanged(identification) {
 		orientation: "h",
 		text: otu_labels,
 		marker: {
-			color: 'darkorange'
+			color: [otu_ids],
+			showscale: false
 		}
 
 		}
@@ -214,10 +217,11 @@ function optionChanged(identification) {
 		y: sample_values_split,
 		text: otu_labels,
 		mode: 'markers',
+		colorscale: 'YlGnBu',
 		marker: {
 			size: (sample_values_split),
 			sizeref: 2,
-			color: [4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048],
+			color: otu_ids,
 			showscale: false
 		}
 		}]
